@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6
+    container_name: nexusboard-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - nexusboard-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nexusboard-backend
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - MONGO_URI=mongodb://mongodb:27017/microservices_db
+    depends_on:
+      - mongodb
+    networks:
+      - nexusboard-network
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: nexusboard-gateway
+    ports:
+      - "3333:3333"
+    environment:
+      - PORT=3333
+      - BACKEND_URL=http://backend:4000
+    depends_on:
+      - backend
+    networks:
+      - nexusboard-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nexusboard-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - GATEWAY_URL=http://localhost:3333 # Browser connects to gateway via localhost:3333
+    depends_on:
+      - gateway
+    networks:
+      - nexusboard-network
+
+volumes:
+  mongo_data:
+
+networks:
+  nexusboard-network:
+    driver: bridge

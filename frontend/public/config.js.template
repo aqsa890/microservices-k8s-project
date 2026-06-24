@@ -1,0 +1,3 @@
+window.ENV = {
+  GATEWAY_URL: "${GATEWAY_URL}"
+};

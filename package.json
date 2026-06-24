@@ -1,0 +1,14 @@
+{
+  "name": "nexusboard-monorepo",
+  "version": "1.0.0",
+  "description": "Root orchestrator for NexusBoard microservices",
+  "private": true,
+  "scripts": {
+    "install-all": "npm install --prefix backend && npm install --prefix gateway && npm install --prefix frontend",
+    "start": "concurrently \"npm run start --prefix backend\" \"npm run start --prefix gateway\" \"npm run start --prefix frontend\"",
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix gateway\" \"npm run dev --prefix frontend\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
