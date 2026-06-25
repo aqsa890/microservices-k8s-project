@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: microservice-k8s
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: elsa888/microservice-backend:latest
+          ports:
+            - containerPort: 4000
+          env:
+            - name: PORT
+              value: '4000'
+            - name: MONGO_URI
+              value: 'mongodb://mongodb-service:27017/microservices_db'

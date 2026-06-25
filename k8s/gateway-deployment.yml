@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-deployment
+  namespace: microservice-k8s
+  labels:
+    app: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: elsa888/microservice-gateway:latest
+          ports:
+            - containerPort: 3333
+          env:
+            - name: PORT
+              value: '3333'
+            - name: BACKEND_URL
+              value: 'http://backend-service:4000'

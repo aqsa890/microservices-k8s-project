@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: gateway-service
+  namespace: microservice-k8s
+spec:
+  selector:
+    app: gateway
+  ports:
+    - port: 3333
+      targetPort: 3333

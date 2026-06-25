@@ -25,3 +25,8 @@ Thumbs.db
 .idea/
 *.suo
 *.sw?
+
+node_modules
+
+.git
+
